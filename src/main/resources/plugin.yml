@@ -1,0 +1,5 @@
+name: HubrisDropItems
+main: net.boster.hubris.dropitems.HubrisDropItems
+author: Bosternike
+version: 1.0.0
+api-version: 1.13
