@@ -36,7 +36,7 @@ public class HubrisDropItems extends JavaPlugin {
 
     public DroppedItem getByDroppedItem(@NotNull Item item) {
         for(DroppedItem i : droppedItems) {
-            if(i.getItem().getUniqueId().equals(item.getUniqueId())) return i;
+            if(i.getItem() == item) return i;
         }
 
         return null;
@@ -46,7 +46,17 @@ public class HubrisDropItems extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                droppedItems.removeIf(d -> !d.getItem().isValid() || d.getTime() - System.currentTimeMillis() >= 0);
+                for(DroppedItem i : new ArrayList<>(droppedItems)) {
+                    if(!i.getItem().isValid()) {
+                        droppedItems.remove(i);
+                        continue;
+                    }
+
+                    if(i.getTime() <= System.currentTimeMillis()) {
+                        i.getItem().setCustomNameVisible(false);
+                        droppedItems.remove(i);
+                    }
+                }
             }
         }.runTaskTimer(this, 0, 0);
     }
